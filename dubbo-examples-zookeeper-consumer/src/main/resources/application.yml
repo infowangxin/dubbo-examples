@@ -1,15 +1,15 @@
 server:
-  shutdown: graceful #优雅停服务，在容器关闭时，web服务器将不再接收新请求，并将等待活动请求完成的缓冲期
+  shutdown: graceful # 优雅停服务，在容器关闭时，web服务器将不再接收新请求，并将等待活动请求完成的缓冲期
   servlet:
     context-path: /
   port: 9999
   tomcat:
     uri-encoding: UTF-8
     max-threads: 10000 #最大工作线程数量，一般建议是CPU Core * 200
-#    max-threads: 800 #最大工作线程数量，一般建议是CPU Core * 200
-#    min-spare-threads: 20 #最小工作线程数量
-#    max-connections: 1000 #一瞬间最大支持的并发的连接数
-    accept-count: 100 #等待队列长度
+#    max-threads: 800 # 最大工作线程数量，一般建议是CPU Core * 200
+#    min-spare-threads: 20 # 最小工作线程数量
+#    max-connections: 1000 # 一瞬间最大支持的并发的连接数
+    accept-count: 100 # 等待队列长度
 
 
 spring:
@@ -24,29 +24,28 @@ dubbo:
     base-packages: com.nutcracker
   application:
     name: dubbo-examples-zookeeper-consumer
-    qos:
-      enable: false # qos可理解为在线运维运维命令，建议直接禁用
-#      enable: true
+    qos-enable: false # qos可理解为在线运维运维命令，建议直接禁用，默认为true是启用的
   registry:
-    group: dubbo-demo
-    address: "zookeeper://127.0.0.1:2181?init.timeout=60000"
-#    address: "zookeeper://zookeeper01:2181?backup=zookeeper02:2181,zookeeper03:2181?init.timeout=60000"
+    group: dubbo-examples
+    address: "zookeeper://127.0.0.1:2181"
+#    address: "zookeeper://zookeeper01:2181?backup=zookeeper02:2181,zookeeper03:2181"
     check: false
   protocol:
     name: dubbo # 协议名称
     serialization: kryo #  协议序列化方式,kryo协议性能优于dubbo协议
-    threads: 200 #org.apache.dubbo.common.threadpool.support.fixed.FixedThreadPool dubbo业务线程最大数，默认200
-    port: '40880'
+    threads: 200 # org.apache.dubbo.common.threadpool.support.fixed.FixedThreadPool dubbo业务线程最大数，默认200
 #    port: ${random.int[20990,21000]}
+#    port: -1
+    port: 20882
   provider:
     version: 1.0
-    timeout: 3000 #单位/毫秒，设置3秒为了方便做性能测试
-#    timeout: 300000 #单位/毫秒，5分钟
+    timeout: 3000 # 单位/毫秒，设置3秒为了方便做性能测试
+#    timeout: 300000 # 单位/毫秒，5分钟
   consumer:
     version: 1.0
-    check: false #关闭启动时接口检测
-    timeout: 3000 #单位/毫秒，设置3秒为了方便做性能测试
-#    timeout: 300000 #单位/毫秒，5分钟
-    retries: 0 #禁用超时重试机制，以防数据重复提交，产生脏数据
+    check: false # 关闭启动时接口检测
+    timeout: 3000 # 单位/毫秒，设置3秒为了方便做性能测试
+#    timeout: 300000 # 单位/毫秒，5分钟
+    retries: 0 # 禁用超时重试机制，以防数据重复提交，产生脏数据
 #  monitor:
-#    protocol: registry #dubbo-monitor监控，生产环境不建议使用
+#    protocol: registry # dubbo-monitor监控，生产环境不建议使用
